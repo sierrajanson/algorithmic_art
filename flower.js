@@ -88,15 +88,37 @@ function drawFlower(centerX, centerY, size, rows,mainColor) {
 }
 
 f = new Flower(200, 200,1, 5,[200,100,150])
-// drawFlower(200, 200,1, 3,[200,100,150])
-// drawFlower(600, 200,0.5, 4,[100,150,250])
-// drawFlower(400, 500,0.7, 5,[200,100,150])
 // problem every frame a new random generator is called
 // we want to keep same random flower colors constant
 // need to separate flower creation from moving the positions
-function drawFlowers() {
-    // ctx.clearRect(0,0,canvas.width, canvas.height)
 
+const NUM_FLOWERS = 10;
+const flowersInfo = [];
+const startPoints =[
+    [Math.random()*200+200, Math.random()*200],
+    [Math.random()*200+canvas.width*0.6, Math.random()*200],
+    [Math.random()*200+canvas.width*0.6, Math.random()*200+canvas.height*0.6],
+    [Math.random()*200+200, Math.random()*200+canvas.height*0.6]
+
+];
+for (let flower = 0; flower < NUM_FLOWERS; flower+=1) {
+    const flowerInfo = {
+        'x': startPoints[flower%4][0] + Math.random()*50*flower - 50,//Math.random()*canvas.width*0.6 + canvas.width*0.2, 
+        'y': startPoints[flower%4][1] + Math.random()*50*flower - 50,//Math.random()*canvas.height*0.6 + canvas.height*0.2, 
+        'size':Math.random()*1.2 + 0.4, 
+        'rows':Math.floor(Math.random()*5+3), 
+        'color':[Math.random()*255+20, Math.random()*255+20, Math.random()*255+20]
+    }
+    flowersInfo.push(flowerInfo)
+}
+function drawFlowers() {
+    ctx.clearRect(0,0,canvas.width, canvas.height)
+    // drawFlower(200, 200,1, 3,[200,100,150])
+    // drawFlower(600, 200,0.5, 4,[100,150,250])
+    // drawFlower(400, 500,0.7, 5,[200,100,150])
+    for (let flower = 0; flower < NUM_FLOWERS; flower+=1) [
+        drawFlower(flowersInfo[flower]['x'], flowersInfo[flower]['y'], flowersInfo[flower]['size'],  flowersInfo[flower]['rows'], flowersInfo[flower]['color'])
+    ]
     delta += 0.1
 }
 
